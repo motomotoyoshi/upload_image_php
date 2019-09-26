@@ -16,12 +16,28 @@ class ImageUploader {
             $savePath = $this->_save($ext);
 
             $this->_createThumbnail($savePath);
+
+            $_SESSION['success'] = 'Upload Done';
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $_SESSION['error'] = $e->getMessage();
             exit;
         }
         header('Location: http://' . $_SERVER['HTTP_HOST']);
         exit;
+    }
+
+    public function getResults() {
+        $success = null;
+        $error = null;
+        if (isset($_SESSION['success'])) {
+            $success = $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+        if (isset($_SESSION['error'])) {
+            $success = $_SESSION['error'];
+            unset($_SESSION['error']);
+        }
+        return [$success, $error];
     }
 
     public function getImages() {
