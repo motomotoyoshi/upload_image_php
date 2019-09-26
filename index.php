@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uploader->upload();
 }
 
+    $images = $uploader->getImages();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             font-family: Arial, Helvetica, sans-serif;
         }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -42,5 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="file" name="image">
         <input type="submit" value="upload">
     </form>
+    <ul>
+        <?php foreach ($images as $image): ?>
+        <li>
+            <a href="<?php echo h(basename(IMAGES_DIR) . '/' . basename($images));?>">
+                <img src="<?php echo h($image); ?>">
+            </a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
 </body>
 </html>
